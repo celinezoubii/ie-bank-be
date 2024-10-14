@@ -27,8 +27,14 @@ else:
     print("Running in production mode")
     app.config.from_object('config.ProductionConfig')
 
-# Initialize SQLAlchemy and CORS
+# Initialize SQLAlchemy
 db = SQLAlchemy(app)
+
+# Function to create the application context and the database tables
+def create_app():
+    with app.app_context():  # Ensure the application context is set up
+        db.create_all()  # This creates all tables (useful for testing with in-memory databases)
+    return app
 
 # Import routes AFTER initializing db and app to avoid circular imports
 from iebank_api import routes

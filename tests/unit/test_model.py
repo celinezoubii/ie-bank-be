@@ -14,10 +14,14 @@ def new_account():
 def testing_app_context():
     """
     Provide an application context for database-related tests.
+    Sets up an in-memory SQLite database for testing.
     """
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+    app.config['TESTING'] = True
     with app.app_context():
-        db.create_all()  # Create all tables
+        db.create_all()  # Create all tables for testing
         yield app
+        db.session.remove()
         db.drop_all()  # Tear down the tables after the test
 
 def test_account_add_to_db(testing_app_context, new_account):
