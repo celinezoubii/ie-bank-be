@@ -32,8 +32,12 @@ db = SQLAlchemy(app)
 
 # Function to create the application context and the database tables
 def create_app():
+    """
+    Create and configure the Flask app.
+    This ensures the application context is correctly set and the database tables are created.
+    """
     with app.app_context():  # Ensure the application context is set up
-        db.create_all()  # This creates all tables (useful for testing with in-memory databases)
+        db.create_all()  # Create all tables
     return app
 
 # Import routes AFTER initializing db and app to avoid circular imports

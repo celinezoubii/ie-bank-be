@@ -7,7 +7,9 @@ def new_account():
     """
     Create a new Account instance for testing.
     """
-    account = Account(name='John Doe', currency='€', country='Spain', balance=0.0)
+    # Remove 'balance' if it's not a part of the Account model's __init__
+    account = Account(name='John Doe', currency='€', country='Spain')
+    account.balance = 0.0  # Set balance after creation, if necessary
     return account
 
 @pytest.fixture
@@ -40,3 +42,4 @@ def test_account_add_to_db(testing_app_context, new_account):
         assert account_in_db.name == 'John Doe'
         assert account_in_db.currency == '€'
         assert account_in_db.country == 'Spain'
+        assert account_in_db.balance == 0.0  # Check the balance separately
