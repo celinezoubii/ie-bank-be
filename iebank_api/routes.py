@@ -32,6 +32,23 @@ def create_account():
         }
     }), 201
 
+# Route to retrieve all accounts
+@app.route('/accounts', methods=['GET'])
+def get_accounts():
+    accounts = Account.query.all()
+    return jsonify([
+        {
+            'id': account.id,
+            'name': account.name,
+            'account_number': account.account_number,
+            'balance': account.balance,
+            'currency': account.currency,
+            'status': account.status,
+            'country': account.country
+        }
+        for account in accounts
+    ]), 200
+
 # Route to retrieve an account by its ID
 @app.route('/accounts/<int:id>', methods=['GET'])
 def get_account(id):
@@ -90,7 +107,8 @@ def delete_account(id):
     db.session.commit()
 
     return jsonify({'message': 'Account deleted successfully!'})
+
+# Home route
 @app.route('/')
 def home():
     return "Welcome to the IE Bank API!"
-

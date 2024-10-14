@@ -1,12 +1,17 @@
 import pytest
-from iebank_api import app
+from iebank_api import app, db  # Ensure db is imported to manage application context
 
 @pytest.fixture
 def testing_client():
     flask_app = app
-    # Create a test client using the Flask application configured for testing
-    with flask_app.test_client() as client:
-        yield client
+    flask_app.config['TESTING'] = True
+    flask_app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'  # Use in-memory SQLite database for testing
+    
+    with flask_app.app_context():  # Set up application context for the test
+        db.create_all()  # Ensure tables are created
+        with flask_app.test_client() as client:
+            yield client
+        db.drop_all()  # Tear down the database after tests
 
 def test_get_accounts(testing_client):
     """
