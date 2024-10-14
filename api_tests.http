@@ -1,0 +1,28 @@
+POST http://localhost:5000/accounts
+Content-Type: application/json
+GET http://localhost:5000/accounts/1
+POST http://localhost:5000/accounts
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "balance": 1000,
+  "currency": "€",
+  "country": "Germany"
+}
+PUT http://localhost:5000/accounts/1
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "balance": 1500,
+  "country": "France"
+}
+
+{
+  "name": "John Doe",
+  "balance": 1000,
+  "currency": "€",
+  "country": "Germany"
+}
+DELETE http://localhost:5000/accounts/1
